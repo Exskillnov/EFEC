@@ -1,4 +1,17 @@
 import imaplib, email
+import os
+import re #Expresiones Regulares
+
+def inFolder (filename, fileList):
+    for file in fileList:
+        if file == filename:
+            return True
+    return False
+
+savingPath = input('Ingrese la dirección a guardar los archivos: ')
+
+comparisonPath = input('Ingrese la dirección a comprarar los archivos: ')
+filesToCompare = os.listdir(comparisonPath)
 
 username = input('Ingrese Usuario: ')
 password = input('Ingrese Contraseña: ')
@@ -21,10 +34,12 @@ for item in listOfItems:
     emailMessage = email.message_from_string(rawEmail)
     if emailMessage.get_content_maintype() == 'multipart': #mensaje con multipartes
         for part in emailMessage.walk():
-            if part.get('Content-Disposition') is None: continue
-            print (emailMessage["Date"]) #Recupera la fecha del mensaje enviado
-            filename = part.get_filename()
-            fp = open(filename, 'wb')
-            fp.write(part.get_payload(decode=True))
-            fp.close()
-            print ('{0} Guardado!'.format(filename))
+            if part.get('Content-Disposition') is None: continue #Si el fragmento es None hace la siguiente iteración
+            filename = part.get_filename() #Recupera el nombre del archivo
+            if inFolder(filename, filesToCompare):
+                print (emailMessage["Date"]) #Recupera la fecha del mensaje enviado
+                savingFile = os.path.join(savingPath, filename)
+                fileHandler = open(savingFile, 'wb') #Escribir en binario, si ya existe lo sobrescribe
+                fileHandler.write(part.get_payload(decode=True)) #Decodifica el mensaje único y lo escribe en el archivo creado
+                fileHandler.close() #Cierra el archivo
+                print ('{0} Guardado o sobreescrito'.format(filename))
