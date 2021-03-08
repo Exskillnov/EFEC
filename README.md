@@ -6,7 +6,7 @@ Hace prácicamente poco tiempo perdí archivos en excel y pdf de mi computadora 
 
 ## Antes de Comenzar
 
-Es necesario habilitar IMAP en las configuraciones de Gmail y al mismo tiempo habilitar el acceso al correo por medio de aplicaciones no seguras en el caso de que por algún motivo Google intente bloquear el acceso al programa detectándolo como dispositivo, por lo que es necesario habilitar el acceso a aplicaciones poco seguras.
+Primero que nada es necesario habilitar IMAP en las configuraciones y [habilitar el acceso a aplicaciones poco seguras](https://myaccount.google.com/lesssecureapps).
 
 En el caso de que existan problemas al momento de generar conexiones al correo y este haya sido creado por un proovedor de hosting u otros, contactarlos para solucionar problemas.
 
