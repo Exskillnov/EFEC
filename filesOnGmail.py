@@ -28,15 +28,15 @@ listOfItems = data[0].split() #Crea una lista con todas las IDs codificadas
 
 print(listOfItems)
 
-for item in listOfItems:
+for item in listOfItems: #Recorre cada uno de los mensajes
     result2, emailData = mail.uid('fetch', item, '(RFC822)')
     rawEmail = emailData[0][1].decode('utf-8')
     emailMessage = email.message_from_string(rawEmail)
-    if emailMessage.get_content_maintype() == 'multipart': #mensaje con multipartes
-        for part in emailMessage.walk():
-            if part.get('Content-Disposition') is None: continue #Si el fragmento es None hace la siguiente iteración
+    if emailMessage.get_content_maintype() == 'multipart': #Mensaje con multipartes
+        for part in emailMessage.walk(): #Genera una lista de la clase 'generator' que contiene todos los componentes del mensaje
+            if part.get('Content-Disposition') is None: continue #Si el fragmento es None hace la siguiente iteración hasta que encuentra el adjunto y su nombre
             filename = part.get_filename() #Recupera el nombre del archivo
-            if inFolder(filename, filesToCompare):
+            if inFolder(filename, filesToCompare): #Si el archivo aparece en la lista de archivos a extraer...
                 print (emailMessage["Date"]) #Recupera la fecha del mensaje enviado
                 savingFile = os.path.join(savingPath, filename)
                 fileHandler = open(savingFile, 'wb') #Escribir en binario, si ya existe lo sobrescribe
